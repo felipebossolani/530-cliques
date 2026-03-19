@@ -681,9 +681,82 @@
       render();
     }
 
+    function initSolutionDemo() {
+      const MONTH_NAMES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+        'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+      const dd = document.getElementById('sol-dd');
+      const mm = document.getElementById('sol-mm');
+      const yyyy = document.getElementById('sol-yyyy');
+      const result = document.getElementById('solution-result');
+      const dateDisplay = document.getElementById('solution-date');
+      const fields = [dd, mm, yyyy];
+
+      function stripNonNumeric(input) {
+        input.value = input.value.replace(/\D/g, '');
+      }
+
+      function autoAdvance(current, next) {
+        if (current.value.length >= parseInt(current.maxLength) && next) {
+          next.focus();
+        }
+      }
+
+      function validate() {
+        const d = parseInt(dd.value, 10);
+        const m = parseInt(mm.value, 10);
+        const y = parseInt(yyyy.value, 10);
+
+        if (dd.value.length === 2 && mm.value.length === 2 && yyyy.value.length === 4) {
+          if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 1900 && y <= 2026) {
+            const date = new Date(y, m - 1, d);
+            if (date.getDate() === d && date.getMonth() === m - 1) {
+              fields.forEach(f => f.classList.add('valid'));
+              dateDisplay.textContent = `${d} de ${MONTH_NAMES[m - 1]} de ${y}`;
+              result.hidden = false;
+              return;
+            }
+          }
+        }
+        fields.forEach(f => f.classList.remove('valid'));
+        result.hidden = true;
+      }
+
+      dd.addEventListener('input', () => {
+        stripNonNumeric(dd);
+        autoAdvance(dd, mm);
+        validate();
+      });
+
+      mm.addEventListener('input', () => {
+        stripNonNumeric(mm);
+        autoAdvance(mm, yyyy);
+        validate();
+      });
+
+      yyyy.addEventListener('input', () => {
+        stripNonNumeric(yyyy);
+        validate();
+      });
+
+      // Backspace on empty field focuses previous
+      mm.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && mm.value === '') {
+          dd.focus();
+        }
+      });
+
+      yyyy.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && yyyy.value === '') {
+          mm.focus();
+        }
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initCalculator();
       initPainDemo();
+      initSolutionDemo();
     });
   </script>
 </body>
