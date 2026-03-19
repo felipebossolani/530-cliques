@@ -452,6 +452,17 @@
       margin-bottom: 2rem;
     }
 
+    .fade-target {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-target.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     @media (max-width: 600px) {
       .section {
         padding: 48px 0;
@@ -460,19 +471,62 @@
       .container {
         padding: 0 16px;
       }
+
+      #hero {
+        padding-top: 60px;
+        min-height: auto;
+      }
+
+      .calc-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .calc-row input {
+        width: 100%;
+      }
+
+      .datepicker {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .solution-fields {
+        flex-direction: row;
+        gap: 8px;
+      }
+
+      .solution-field input {
+        font-size: 18px;
+        padding: 8px;
+        width: 64px;
+      }
+
+      .solution-field input[maxlength="4"] {
+        width: 96px;
+      }
+
+      .share-links {
+        flex-direction: column;
+      }
+
+      .share-btn {
+        text-align: center;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
   <main class="container">
-    <section id="hero" class="section">
+    <section id="hero" class="section fade-target">
       <h1>530 cliques.</h1>
       <p>É o número de vezes que eu teria que apertar a setinha <code>&lt;</code> de um date picker pra chegar na minha data de nascimento.</p>
       <p>530 vezes. Mês a mês. Janeiro de 2026, dezembro de 2025, novembro de 2025... até janeiro de 1982. Num calendariozinho de 280 pixels de largura. Com uma setinha de 12 pixels. No celular. Com o dedo. 530 vezes.</p>
       <p>E alguém achou que isso era uma boa ideia.</p>
     </section>
 
-    <section id="frustration" class="section">
+    <section id="frustration" class="section fade-target">
       <h2>Eu sei quando eu nasci.</h2>
       <p>Minha data de nascimento não é algo que eu preciso "procurar" num calendário. Eu não preciso ver que dia da semana foi. Eu não preciso de contexto visual. Eu não preciso navegar entre meses.</p>
       <p>Eu sei a data. É uma string de 8 dígitos que eu digito em documentos desde a adolescência.</p>
@@ -481,7 +535,7 @@
       <p>Mas não. Você me dá um calendário. Que abre em março de 2026. E eu tenho que clicar 530 vezes pra chegar em janeiro de 1982.</p>
     </section>
 
-    <section id="calculator" class="section">
+    <section id="calculator" class="section fade-target">
       <h2>Quantos cliques são os seus?</h2>
       <div class="calc-input">
         <label for="birth-year">Seu ano de nascimento:</label>
@@ -497,7 +551,7 @@
       </div>
     </section>
 
-    <section id="pain-demo" class="section">
+    <section id="pain-demo" class="section fade-target">
       <h2>Sinta a dor.</h2>
       <div class="datepicker-wrapper">
         <div class="datepicker" id="datepicker">
@@ -520,7 +574,7 @@
       <p class="dp-outro" id="dp-outro" hidden>Cansou? Desistiu? Pois é. Seus usuários também.</p>
     </section>
 
-    <section id="solutions" class="section">
+    <section id="solutions" class="section fade-target">
       <h2>A solução é constrangedoramente simples.</h2>
       <p>Você não precisa de uma biblioteca. Não precisa de um componente de 400KB. Não precisa de um calendário bonito.</p>
       <p>Precisa de 3 inputs.</p>
@@ -561,7 +615,7 @@
       <p>Você sabe em que dia da semana você nasceu? Não? Então por que seu formulário mostra isso?</p>
     </section>
 
-    <section id="wall-of-shame" class="section">
+    <section id="wall-of-shame" class="section fade-target">
       <h2>O muro da vergonha.</h2>
 
       <div class="shame-card">
@@ -585,7 +639,7 @@
       </div>
     </section>
 
-    <section id="closing" class="section">
+    <section id="closing" class="section fade-target">
       <h2>Conserta seus formulários.</h2>
       <p>Não usa date picker pra data de nascimento. É uma data conhecida. Deixa o usuário digitar.</p>
       <p>3 campos. Dia. Mês. Ano. Labels claros. Teclado numérico no celular.</p>
@@ -866,11 +920,25 @@
       });
     }
 
+    function initAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.fade-target').forEach(el => observer.observe(el));
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initCalculator();
       initPainDemo();
       initSolutionDemo();
       initShareLinks();
+      initAnimations();
     });
   </script>
 </body>
