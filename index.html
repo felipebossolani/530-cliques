@@ -42,6 +42,15 @@
       padding: 0;
     }
 
+    :focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -117,7 +126,7 @@
     .calc-input label {
       display: block;
       margin-bottom: 0.75rem;
-      color: #888;
+      color: #999;
       font-size: 14px;
     }
 
@@ -136,7 +145,6 @@
       padding: 12px 16px;
       border-radius: 4px;
       width: 160px;
-      outline: none;
       transition: border-color 0.2s;
     }
 
@@ -176,7 +184,7 @@
     }
 
     .calc-subtitle {
-      color: #888;
+      color: #999;
       font-size: 14px;
       margin-top: 0.5rem;
     }
@@ -345,7 +353,7 @@
 
     .solution-field label {
       font-size: 12px;
-      color: #888;
+      color: #999;
       text-transform: uppercase;
     }
 
@@ -359,7 +367,6 @@
       border-radius: 4px;
       text-align: center;
       width: 80px;
-      outline: none;
       transition: border-color 0.3s;
     }
 
@@ -529,7 +536,7 @@
 
     .native-field label {
       font-size: 12px;
-      color: #888;
+      color: #999;
       text-transform: uppercase;
     }
 
@@ -542,7 +549,6 @@
       padding: 10px 28px 10px 10px;
       border-radius: 4px;
       cursor: pointer;
-      outline: none;
       appearance: none;
       -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
@@ -941,14 +947,17 @@
       const message = document.getElementById('calc-message');
 
       function calculate() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth();
         const year = parseInt(input.value, 10);
-        if (isNaN(year) || year < 1900 || year > 2025) {
+        if (isNaN(year) || year < 1900 || year > currentYear) {
           input.style.borderColor = '#C0392B';
           return;
         }
         input.style.borderColor = '';
 
-        const clicks = (2026 - year) * 12 + 2;
+        const clicks = (currentYear - year) * 12 + currentMonth + 2;
         result.hidden = false;
 
         const duration = 1500;
@@ -994,8 +1003,9 @@
       const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-      let currentMonth = 2; // March (0-indexed)
-      let currentYear = 2026;
+      const now = new Date();
+      let currentMonth = now.getMonth();
+      let currentYear = now.getFullYear();
       let clickCount = 0;
 
       const display = document.getElementById('dp-display');
@@ -1014,11 +1024,12 @@
 
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const frag = document.createDocumentFragment();
 
         for (let i = 0; i < firstDay; i++) {
           const empty = document.createElement('span');
           empty.className = 'dp-day empty';
-          grid.appendChild(empty);
+          frag.appendChild(empty);
         }
 
         for (let d = 1; d <= daysInMonth; d++) {
@@ -1028,8 +1039,9 @@
           btn.addEventListener('click', () => {
             incrementClick();
           });
-          grid.appendChild(btn);
+          frag.appendChild(btn);
         }
+        grid.appendChild(frag);
       }
 
       function incrementClick() {
@@ -1041,8 +1053,10 @@
       function getTarget() {
         const yearInput = document.getElementById('birth-year');
         const year = parseInt(yearInput.value, 10);
-        if (!isNaN(year) && year >= 1900 && year <= 2025) {
-          return (2026 - year) * 12 + 2;
+        const ref = new Date();
+        const refYear = ref.getFullYear();
+        if (!isNaN(year) && year >= 1900 && year <= refYear) {
+          return (refYear - year) * 12 + ref.getMonth() + 2;
         }
         return 530;
       }
@@ -1100,8 +1114,9 @@
       const MONTHS_LC = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
         'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
 
-      let currentMonth = 2;
-      let currentYear = 2026;
+      const _now = new Date();
+      let currentMonth = _now.getMonth();
+      let currentYear = _now.getFullYear();
       let interactionCount = 0;
 
       const monthBtn = document.getElementById('pp-month-btn');
@@ -1124,18 +1139,27 @@
         yearBtn.textContent = currentYear;
       }
 
+      let _lastPopoverTrigger = null;
+
       function closePopover() {
         popoverContainer.innerHTML = '';
         weekdays.style.display = '';
         grid.style.display = '';
+        if (_lastPopoverTrigger) {
+          _lastPopoverTrigger.focus();
+          _lastPopoverTrigger = null;
+        }
       }
 
       function showMonthPicker() {
+        _lastPopoverTrigger = monthBtn;
         count();
         grid.style.display = 'none';
         weekdays.style.display = 'none';
         const pop = document.createElement('div');
         pop.className = 'pp-popover';
+        pop.setAttribute('role', 'dialog');
+        pop.setAttribute('aria-label', 'Selecionar mês');
         const g = document.createElement('div');
         g.className = 'pp-months-grid';
         MONTHS.forEach((name, i) => {
@@ -1158,14 +1182,18 @@
       }
 
       function showYearPicker() {
+        _lastPopoverTrigger = yearBtn;
         count();
         grid.style.display = 'none';
         weekdays.style.display = 'none';
         const pop = document.createElement('div');
         pop.className = 'pp-popover';
+        pop.setAttribute('role', 'dialog');
+        pop.setAttribute('aria-label', 'Selecionar ano');
         const list = document.createElement('div');
         list.className = 'pp-years-list';
-        for (let y = 2026; y >= 1920; y--) {
+        const yearFrag = document.createDocumentFragment();
+        for (let y = new Date().getFullYear(); y >= 1920; y--) {
           const btn = document.createElement('button');
           btn.className = 'pp-year-item';
           btn.textContent = y;
@@ -1177,8 +1205,9 @@
             closePopover();
             renderDays();
           });
-          list.appendChild(btn);
+          yearFrag.appendChild(btn);
         }
+        list.appendChild(yearFrag);
         pop.appendChild(list);
         popoverContainer.innerHTML = '';
         popoverContainer.appendChild(pop);
@@ -1191,11 +1220,12 @@
         grid.innerHTML = '';
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const frag = document.createDocumentFragment();
 
         for (let i = 0; i < firstDay; i++) {
           const empty = document.createElement('span');
           empty.className = 'dp-day empty';
-          grid.appendChild(empty);
+          frag.appendChild(empty);
         }
 
         for (let d = 1; d <= daysInMonth; d++) {
@@ -1211,12 +1241,19 @@
             resultText.textContent = `${interactionCount} interações. Pra digitar algo que você sabe de cor desde os 12 anos.`;
             resultDiv.hidden = false;
           });
-          grid.appendChild(btn);
+          frag.appendChild(btn);
         }
+        grid.appendChild(frag);
       }
 
       monthBtn.addEventListener('click', showMonthPicker);
       yearBtn.addEventListener('click', showYearPicker);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popoverContainer.children.length > 0) {
+          closePopover();
+        }
+      });
 
       updateHeader();
       renderDays();
@@ -1244,8 +1281,8 @@
         daySelect.appendChild(opt);
       }
 
-      // Populate years 2026-1920
-      for (let y = 2026; y >= 1920; y--) {
+      // Populate years current-1920
+      for (let y = new Date().getFullYear(); y >= 1920; y--) {
         const opt = document.createElement('option');
         opt.value = y;
         opt.textContent = y;
@@ -1262,7 +1299,18 @@
         const d = daySelect.value;
         const y = yearSelect.value;
         if (m !== '' && d !== '' && y !== '') {
-          messageEl.textContent = `${d} de ${MONTHS_LC[parseInt(m)]} de ${y}`;
+          const day = parseInt(d, 10);
+          const month = parseInt(m, 10);
+          const year = parseInt(y, 10);
+          // Validate the date actually exists (e.g. Feb 31 is invalid)
+          const testDate = new Date(year, month, day);
+          if (testDate.getDate() !== day) {
+            messageEl.textContent = `Data inválida: ${day} de ${MONTHS_LC[month]} não existe.`;
+            messageEl.style.color = '#C0392B';
+            resultDiv.hidden = true;
+            return;
+          }
+          messageEl.textContent = `${day} de ${MONTHS_LC[month]} de ${year}`;
           messageEl.style.color = '#E0E0E0';
           resultText.textContent = `${interactionCount} interações e 3 scrolls. Ou 3 campos de texto em 2 segundos.`;
           resultDiv.hidden = false;
@@ -1270,7 +1318,6 @@
       }
 
       [monthSelect, daySelect, yearSelect].forEach(sel => {
-        sel.addEventListener('mousedown', () => count());
         sel.addEventListener('change', () => {
           count();
           checkComplete();
@@ -1305,7 +1352,7 @@
         const y = parseInt(yyyy.value, 10);
 
         if (dd.value.length === 2 && mm.value.length === 2 && yyyy.value.length === 4) {
-          if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 1900 && y <= 2026) {
+          if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 1900 && y <= new Date().getFullYear()) {
             const date = new Date(y, m - 1, d);
             if (date.getDate() === d && date.getMonth() === m - 1) {
               fields.forEach(f => f.classList.add('valid'));
@@ -1368,15 +1415,22 @@
           navigator.clipboard.writeText(pageUrl).then(() => {
             copyBtn.textContent = 'Copiado!';
             setTimeout(() => { copyBtn.textContent = 'Copiar link'; }, 2000);
+          }).catch(() => {
+            copyBtn.textContent = 'Erro ao copiar';
+            setTimeout(() => { copyBtn.textContent = 'Copiar link'; }, 2000);
           });
         } else {
-          const ta = document.createElement('textarea');
-          ta.value = pageUrl;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          copyBtn.textContent = 'Copiado!';
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = pageUrl;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyBtn.textContent = 'Copiado!';
+          } catch {
+            copyBtn.textContent = 'Erro ao copiar';
+          }
           setTimeout(() => { copyBtn.textContent = 'Copiar link'; }, 2000);
         }
       });
