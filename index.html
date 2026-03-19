@@ -104,6 +104,19 @@
       font-family: var(--font);
     }
 
+    #hero {
+      padding-top: 120px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #hero h1 {
+      font-size: clamp(3rem, 10vw, 6rem);
+      margin-bottom: 2rem;
+    }
+
     @media (max-width: 600px) {
       .section {
         padding: 48px 0;
@@ -118,9 +131,19 @@
 <body>
   <main class="container">
     <section id="hero" class="section">
+      <h1>530 cliques.</h1>
+      <p>É o número de vezes que eu teria que apertar a setinha <code>&lt;</code> de um date picker pra chegar na minha data de nascimento.</p>
+      <p>530 vezes. Mês a mês. Janeiro de 2026, dezembro de 2025, novembro de 2025... até janeiro de 1982. Num calendariozinho de 280 pixels de largura. Com uma setinha de 12 pixels. No celular. Com o dedo. 530 vezes.</p>
+      <p>E alguém achou que isso era uma boa ideia.</p>
     </section>
 
     <section id="frustration" class="section">
+      <h2>Eu sei quando eu nasci.</h2>
+      <p>Minha data de nascimento não é algo que eu preciso "procurar" num calendário. Eu não preciso ver que dia da semana foi. Eu não preciso de contexto visual. Eu não preciso navegar entre meses.</p>
+      <p>Eu sei a data. É uma string de 8 dígitos que eu digito em documentos desde a adolescência.</p>
+      <p><strong>06/01/1982.</strong></p>
+      <p>Me dá 3 campos de texto. Dia. Mês. Ano. Eu digito em 2 segundos. Pronto. Acabou. Próximo campo.</p>
+      <p>Mas não. Você me dá um calendário. Que abre em março de 2026. E eu tenho que clicar 530 vezes pra chegar em janeiro de 1982.</p>
     </section>
 
     <section id="calculator" class="section">
