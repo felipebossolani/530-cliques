@@ -392,6 +392,54 @@
       font-size: 14px;
     }
 
+    .dp2-selects {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .dp2-select {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid #444;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      padding: 10px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px;
+    }
+
+    .dp2-select:focus {
+      border-color: var(--text);
+    }
+
+    .dp2-select option {
+      background: #1E1E1E;
+      color: var(--text);
+    }
+
+    .dp2-result {
+      text-align: center;
+    }
+
+    .dp2-result p {
+      color: var(--yellow);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .dp2 .dp-grid {
+      min-height: 192px;
+    }
+
     .shame-card {
       border-left: 3px solid var(--red);
       padding: 20px 24px;
@@ -582,6 +630,52 @@
         <button class="btn-desisto" id="btn-desisto">Desisto.</button>
       </div>
       <p class="dp-outro" id="dp-outro" hidden>Cansou? Desistiu? Pois é. Seus usuários também.</p>
+    </section>
+
+    <section id="dropdown-demo" class="section fade-target">
+      <h2>Tá, mas o meu tem dropdown de ano.</h2>
+      <p>Tem gente que vai olhar os 530 cliques e pensar: "ah, mas o meu date picker tem dropdown de mês e ano. Não é tão ruim."</p>
+      <p>Ok. Testa.</p>
+
+      <div class="datepicker-wrapper">
+        <div class="datepicker dp2" id="dp2">
+          <div class="dp2-selects">
+            <select id="dp2-month" class="dp2-select">
+              <option value="" disabled selected>Mês</option>
+              <option value="0">Janeiro</option>
+              <option value="1">Fevereiro</option>
+              <option value="2">Março</option>
+              <option value="3">Abril</option>
+              <option value="4">Maio</option>
+              <option value="5">Junho</option>
+              <option value="6">Julho</option>
+              <option value="7">Agosto</option>
+              <option value="8">Setembro</option>
+              <option value="9">Outubro</option>
+              <option value="10">Novembro</option>
+              <option value="11">Dezembro</option>
+            </select>
+            <select id="dp2-year" class="dp2-select">
+              <option value="" disabled selected>Ano</option>
+            </select>
+          </div>
+          <div class="dp-weekdays">
+            <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+          </div>
+          <div class="dp-grid" id="dp2-grid"></div>
+        </div>
+        <div class="dp-stats">
+          <span>Interações: <strong id="dp2-clicks">0</strong></span>
+          <p class="dp-message" id="dp2-message"></p>
+        </div>
+        <div class="dp2-result" id="dp2-result" hidden>
+          <p id="dp2-result-text"></p>
+        </div>
+      </div>
+
+      <p>Vamos contar: um clique pra abrir o dropdown de ano. Scroll por 100+ opções. Acha o ano. Clica. Um clique pra abrir o dropdown de mês. Scroll por 12 opções. Acha o mês. Clica. Agora escaneia um grid de 28 a 31 números pequenos. Acha o dia. Clica.</p>
+      <p>São 6 interações, 2 scrolls e um grid. No celular, com o dedo, numa área de toque minúscula.</p>
+      <p>Ou você podia ter dado 3 campos de texto e o usuário digitava em 2 segundos.</p>
     </section>
 
     <section id="solutions" class="section fade-target">
@@ -827,6 +921,84 @@
       render();
     }
 
+    function initDropdownDemo() {
+      const monthSelect = document.getElementById('dp2-month');
+      const yearSelect = document.getElementById('dp2-year');
+      const grid = document.getElementById('dp2-grid');
+      const clicksEl = document.getElementById('dp2-clicks');
+      const messageEl = document.getElementById('dp2-message');
+      const resultDiv = document.getElementById('dp2-result');
+      const resultText = document.getElementById('dp2-result-text');
+
+      let interactionCount = 0;
+      let selectedDay = null;
+
+      // Populate year dropdown: 2026 down to 1920
+      for (let y = 2026; y >= 1920; y--) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSelect.appendChild(opt);
+      }
+
+      function countInteraction() {
+        interactionCount++;
+        clicksEl.textContent = interactionCount;
+      }
+
+      function renderGrid() {
+        grid.innerHTML = '';
+        selectedDay = null;
+        const m = parseInt(monthSelect.value);
+        const y = parseInt(yearSelect.value);
+        if (isNaN(m) || isNaN(y)) return;
+
+        const firstDay = new Date(y, m, 1).getDay();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+          const empty = document.createElement('span');
+          empty.className = 'dp-day empty';
+          grid.appendChild(empty);
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const btn = document.createElement('button');
+          btn.className = 'dp-day';
+          btn.textContent = d;
+          btn.addEventListener('click', () => {
+            selectedDay = d;
+            countInteraction();
+
+            // Highlight selected
+            grid.querySelectorAll('.dp-day').forEach(el => el.style.background = '');
+            btn.style.background = '#333';
+
+            const MNAMES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+              'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+            resultText.textContent = `${interactionCount} interações. 2 scrolls. 1 grid de números. Ou 3 campos de texto em 2 segundos.`;
+            resultDiv.hidden = false;
+            messageEl.textContent = `${d} de ${MNAMES[m]} de ${y}`;
+            messageEl.style.color = '#E0E0E0';
+          });
+          grid.appendChild(btn);
+        }
+      }
+
+      // Count opening + selecting on dropdowns
+      monthSelect.addEventListener('mousedown', () => countInteraction());
+      monthSelect.addEventListener('change', () => {
+        countInteraction();
+        renderGrid();
+      });
+
+      yearSelect.addEventListener('mousedown', () => countInteraction());
+      yearSelect.addEventListener('change', () => {
+        countInteraction();
+        renderGrid();
+      });
+    }
+
     function initSolutionDemo() {
       const MONTH_NAMES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
         'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
@@ -946,6 +1118,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       initCalculator();
       initPainDemo();
+      initDropdownDemo();
       initSolutionDemo();
       initShareLinks();
       initAnimations();
