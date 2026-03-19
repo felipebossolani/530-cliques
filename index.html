@@ -382,6 +382,27 @@
       font-size: 14px;
     }
 
+    .shame-card {
+      border-left: 3px solid var(--red);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      background: var(--card-bg);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .shame-card h3 {
+      color: var(--red);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .shame-card p {
+      margin-bottom: 0;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
     .dp-desistiu {
       text-align: center;
       color: var(--red);
@@ -512,6 +533,27 @@
     </section>
 
     <section id="wall-of-shame" class="section">
+      <h2>O muro da vergonha.</h2>
+
+      <div class="shame-card">
+        <h3>X (Twitter).</h3>
+        <p>Cadastro pede data de nascimento com um date picker que navega mês a mês. Se você tem 40 anos, são mais de 500 cliques. A rede social que quer que você se cadastre em 30 segundos te faz clicar por 5 minutos.</p>
+      </div>
+
+      <div class="shame-card">
+        <h3>shadcn/ui.</h3>
+        <p>A biblioteca de componentes mais popular do ecossistema React. A documentação oficial usa o Calendar component como exemplo para "Date of Birth". Um dev de 30 anos precisaria clicar ~360 vezes pra selecionar a data. Tem 3 issues abertas no GitHub sobre isso. A documentação ensina o pattern errado — e milhares de devs copiam.</p>
+      </div>
+
+      <div class="shame-card">
+        <h3>O date picker nativo do HTML.</h3>
+        <p><code>&lt;input type="date"&gt;</code> abre no mês atual. Em março de 2026. Pra digitar uma data de nascimento. O browser que quer te ajudar te joga 40 anos no passado. Além disso, a acessibilidade é terrível — problemas com leitores de tela, foco, layout e mensagens de erro genéricas.</p>
+      </div>
+
+      <div class="shame-card">
+        <h3>Qualquer formulário com dropdown de mês + dia + ano.</h3>
+        <p>12 opções de mês. 31 de dia. 118+ de ano. Scroll em 3 menus separados. No desktop, troca de teclado pra mouse em cada campo. No celular, scroll infinito numa roletinha de 44px de altura.</p>
+      </div>
     </section>
 
     <section id="closing" class="section">
