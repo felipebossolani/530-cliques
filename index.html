@@ -410,6 +410,35 @@
       font-size: 16px;
     }
 
+    .share-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 2rem;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      background: none;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .share-btn:hover {
+      background: var(--green);
+      color: var(--bg);
+      text-decoration: none;
+    }
+
     #hero {
       padding-top: 120px;
       min-height: 100vh;
@@ -557,6 +586,17 @@
     </section>
 
     <section id="closing" class="section">
+      <h2>Conserta seus formulários.</h2>
+      <p>Não usa date picker pra data de nascimento. É uma data conhecida. Deixa o usuário digitar.</p>
+      <p>3 campos. Dia. Mês. Ano. Labels claros. Teclado numérico no celular.</p>
+      <p>É um problema resolvido. É pesquisa de usabilidade publicada. É recomendação do Gov.uk, do Nielsen Norman Group, da Smashing Magazine.</p>
+      <p>Não existe literalmente nenhum motivo pra usar um calendário de date picker pra data de nascimento além da inércia coletiva de um milhão de devs copiando o mesmo componente de uma biblioteca sem nunca testar com um ser humano real.</p>
+      <p><strong>Para de scrollar. Deixa eu digitar.</strong></p>
+      <div class="share-links">
+        <a class="share-btn" id="share-twitter" target="_blank" rel="noopener noreferrer">Compartilhar no Twitter/X</a>
+        <a class="share-btn" id="share-linkedin" target="_blank" rel="noopener noreferrer">Compartilhar no LinkedIn</a>
+        <button class="share-btn" id="share-copy">Copiar link</button>
+      </div>
     </section>
   </main>
 
