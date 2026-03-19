@@ -104,6 +104,79 @@
       font-family: var(--font);
     }
 
+    .calc-input label {
+      display: block;
+      margin-bottom: 0.75rem;
+      color: #888;
+      font-size: 14px;
+    }
+
+    .calc-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .calc-row input {
+      background: var(--code-bg);
+      border: 1px solid #333;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 18px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      width: 160px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .calc-row input:focus {
+      border-color: var(--green);
+    }
+
+    .calc-row button {
+      background: var(--green);
+      color: var(--bg);
+      border: none;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .calc-row button:hover {
+      opacity: 0.85;
+    }
+
+    .calc-result {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .odometer {
+      display: block;
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 800;
+      color: var(--yellow);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+
+    .calc-subtitle {
+      color: #888;
+      font-size: 14px;
+      margin-top: 0.5rem;
+    }
+
+    .calc-message {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 1rem;
+    }
+
     #hero {
       padding-top: 120px;
       min-height: 100vh;
@@ -147,6 +220,19 @@
     </section>
 
     <section id="calculator" class="section">
+      <h2>Quantos cliques são os seus?</h2>
+      <div class="calc-input">
+        <label for="birth-year">Seu ano de nascimento:</label>
+        <div class="calc-row">
+          <input type="text" inputmode="numeric" id="birth-year" maxlength="4" placeholder="ex: 1982" autocomplete="off">
+          <button id="calc-btn">Calcular</button>
+        </div>
+      </div>
+      <div class="calc-result" id="calc-result" hidden>
+        <span class="odometer" id="click-count">0</span>
+        <p class="calc-subtitle" id="calc-subtitle"></p>
+        <p class="calc-message" id="calc-message"></p>
+      </div>
     </section>
 
     <section id="pain-demo" class="section">
@@ -163,6 +249,67 @@
   </main>
 
   <script>
+    function initCalculator() {
+      const input = document.getElementById('birth-year');
+      const btn = document.getElementById('calc-btn');
+      const result = document.getElementById('calc-result');
+      const counter = document.getElementById('click-count');
+      const subtitle = document.getElementById('calc-subtitle');
+      const message = document.getElementById('calc-message');
+
+      function calculate() {
+        const year = parseInt(input.value, 10);
+        if (isNaN(year) || year < 1900 || year > 2025) {
+          input.style.borderColor = '#C0392B';
+          return;
+        }
+        input.style.borderColor = '';
+
+        const clicks = (2026 - year) * 12 + 2;
+        result.hidden = false;
+
+        const duration = 1500;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          counter.textContent = Math.floor(eased * clicks);
+          if (t < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            counter.textContent = clicks;
+            subtitle.textContent = `São ${clicks} cliques. Numa setinha de 12 pixels. No celular. Com o dedo.`;
+
+            let msg, color;
+            if (clicks <= 200) {
+              msg = 'Ruim, mas sobrevivível.';
+              color = '#F39C12';
+            } else if (clicks <= 400) {
+              msg = 'Seu dedo já tá doendo.';
+              color = '#E67E22';
+            } else if (clicks <= 600) {
+              msg = 'Você provavelmente desistiria do cadastro.';
+              color = '#C0392B';
+            } else {
+              msg = 'Parabéns, você quebraria o date picker.';
+              color = '#C0392B';
+            }
+            message.textContent = msg;
+            message.style.color = color;
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+
+      btn.addEventListener('click', calculate);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') calculate();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initCalculator();
+    });
   </script>
 </body>
 </html>
