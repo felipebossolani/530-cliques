@@ -392,20 +392,154 @@
       font-size: 14px;
     }
 
-    .dp2-selects {
+    /* Popover date picker demo */
+    .popover-picker {
+      background: #1E1E1E;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 16px;
+      width: 320px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .pp-header {
       display: flex;
+      justify-content: center;
+      align-items: center;
       gap: 8px;
       margin-bottom: 12px;
     }
 
-    .dp2-select {
-      flex: 1;
+    .pp-label {
+      background: none;
+      border: none;
+      color: #fff;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    .pp-label:hover {
+      background: #333;
+    }
+
+    .pp-popover {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      background: #1E1E1E;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px;
+      z-index: 10;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    .pp-months-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .pp-month-item {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      padding: 10px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.1s;
+    }
+
+    .pp-month-item:hover {
+      background: #333;
+    }
+
+    .pp-years-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pp-years-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .pp-years-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .pp-years-list::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 3px;
+    }
+
+    .pp-year-item {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.1s;
+      flex-shrink: 0;
+    }
+
+    .pp-year-item:hover {
+      background: #333;
+    }
+
+    .pp-result {
+      text-align: center;
+    }
+
+    .pp-result p {
+      color: var(--yellow);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* Native dropdown demo */
+    .native-selects {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .native-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .native-field label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .native-select {
       background: var(--bg);
       border: 1px solid #444;
       color: var(--text);
       font-family: var(--font);
-      font-size: 13px;
-      padding: 10px 8px;
+      font-size: 14px;
+      padding: 10px 28px 10px 10px;
       border-radius: 4px;
       cursor: pointer;
       outline: none;
@@ -413,31 +547,27 @@
       -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 10px center;
+      background-position: right 8px center;
       background-size: 12px;
     }
 
-    .dp2-select:focus {
+    .native-select:focus {
       border-color: var(--text);
     }
 
-    .dp2-select option {
+    .native-select option {
       background: #1E1E1E;
       color: var(--text);
     }
 
-    .dp2-result {
+    .nd-result {
       text-align: center;
     }
 
-    .dp2-result p {
+    .nd-result p {
       color: var(--yellow);
       font-weight: 700;
       font-size: 14px;
-    }
-
-    .dp2 .dp-grid {
-      min-height: 192px;
     }
 
     .shame-card {
@@ -544,9 +674,14 @@
         width: 100%;
       }
 
-      .datepicker {
+      .datepicker,
+      .popover-picker {
         width: 100%;
         max-width: 320px;
+      }
+
+      .native-selects {
+        flex-wrap: wrap;
       }
 
       .solution-fields {
@@ -632,49 +767,87 @@
       <p class="dp-outro" id="dp-outro" hidden>Cansou? Desistiu? Pois é. Seus usuários também.</p>
     </section>
 
-    <section id="dropdown-demo" class="section fade-target">
-      <h2>Tá, mas o meu tem dropdown de ano.</h2>
-      <p>Tem gente que vai olhar os 530 cliques e pensar: "ah, mas o meu date picker tem dropdown de mês e ano. Não é tão ruim."</p>
-      <p>Ok. Testa.</p>
+    <section id="popover-demo" class="section fade-target">
+      <h2>"Tá, mas o meu abre um seletor de mês e ano."</h2>
+      <p>O date picker mais comum em 2026. Você clica no nome do mês, abre uma lista com os 12 meses. Seleciona. Clica no ano, abre outra lista com 100+ anos. Scrolla. Seleciona. Depois encontra o dia num grid de números pequenos e clica.</p>
+      <p>Testa.</p>
 
       <div class="datepicker-wrapper">
-        <div class="datepicker dp2" id="dp2">
-          <div class="dp2-selects">
-            <select id="dp2-month" class="dp2-select">
-              <option value="" disabled selected>Mês</option>
-              <option value="0">Janeiro</option>
-              <option value="1">Fevereiro</option>
-              <option value="2">Março</option>
-              <option value="3">Abril</option>
-              <option value="4">Maio</option>
-              <option value="5">Junho</option>
-              <option value="6">Julho</option>
-              <option value="7">Agosto</option>
-              <option value="8">Setembro</option>
-              <option value="9">Outubro</option>
-              <option value="10">Novembro</option>
-              <option value="11">Dezembro</option>
-            </select>
-            <select id="dp2-year" class="dp2-select">
-              <option value="" disabled selected>Ano</option>
-            </select>
+        <div class="popover-picker" id="pp-picker">
+          <div class="pp-header">
+            <button class="pp-label" id="pp-month-btn"></button>
+            <button class="pp-label" id="pp-year-btn"></button>
           </div>
-          <div class="dp-weekdays">
+          <div id="pp-popover-container"></div>
+          <div class="dp-weekdays" id="pp-weekdays">
             <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
           </div>
-          <div class="dp-grid" id="dp2-grid"></div>
+          <div class="dp-grid" id="pp-grid"></div>
         </div>
         <div class="dp-stats">
-          <span>Interações: <strong id="dp2-clicks">0</strong></span>
-          <p class="dp-message" id="dp2-message"></p>
+          <span>Interações: <strong id="pp-clicks">0</strong></span>
+          <p class="dp-message" id="pp-message"></p>
         </div>
-        <div class="dp2-result" id="dp2-result" hidden>
-          <p id="dp2-result-text"></p>
+        <div class="pp-result" id="pp-result" hidden>
+          <p id="pp-result-text"></p>
         </div>
       </div>
 
-      <p>Vamos contar: um clique pra abrir o dropdown de ano. Scroll por 100+ opções. Acha o ano. Clica. Um clique pra abrir o dropdown de mês. Scroll por 12 opções. Acha o mês. Clica. Agora escaneia um grid de 28 a 31 números pequenos. Acha o dia. Clica.</p>
-      <p>São 6 interações, 2 scrolls e um grid. No celular, com o dedo, numa área de toque minúscula.</p>
+      <p>Vamos contar: um clique pra abrir o date picker. Um clique no mês. Scroll. Seleciona. Um clique no ano. Scroll por 100+ opções. Seleciona. Scan visual num grid. Clica no dia.</p>
+      <p>9 interações. Pra digitar algo que você sabe de cor desde os 12 anos.</p>
+    </section>
+
+    <section id="native-dropdown-demo" class="section fade-target">
+      <h2>"Tá, mas o meu tem dropdown nativo."</h2>
+      <p>O último refúgio. Três dropdowns nativos do HTML: mês, dia, ano. Sem calendário, sem grid, sem modal. Só scroll.</p>
+      <p>Testa.</p>
+
+      <div class="datepicker-wrapper">
+        <div class="datepicker" style="width: 320px; padding: 20px;">
+          <div class="native-selects">
+            <div class="native-field">
+              <label for="nd-month">Mês</label>
+              <select id="nd-month" class="native-select">
+                <option value="" disabled selected>—</option>
+                <option value="0">Janeiro</option>
+                <option value="1">Fevereiro</option>
+                <option value="2">Março</option>
+                <option value="3">Abril</option>
+                <option value="4">Maio</option>
+                <option value="5">Junho</option>
+                <option value="6">Julho</option>
+                <option value="7">Agosto</option>
+                <option value="8">Setembro</option>
+                <option value="9">Outubro</option>
+                <option value="10">Novembro</option>
+                <option value="11">Dezembro</option>
+              </select>
+            </div>
+            <div class="native-field">
+              <label for="nd-day">Dia</label>
+              <select id="nd-day" class="native-select">
+                <option value="" disabled selected>—</option>
+              </select>
+            </div>
+            <div class="native-field">
+              <label for="nd-year">Ano</label>
+              <select id="nd-year" class="native-select">
+                <option value="" disabled selected>—</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="dp-stats">
+          <span>Interações: <strong id="nd-clicks">0</strong></span>
+          <p class="dp-message" id="nd-message"></p>
+        </div>
+        <div class="nd-result" id="nd-result" hidden>
+          <p id="nd-result-text"></p>
+        </div>
+      </div>
+
+      <p>Vamos contar: um clique pra abrir o dropdown de mês. Scroll por 12 opções. Seleciona. Um clique pra abrir o dropdown de dia. Scroll por 31 opções. Seleciona. Um clique pra abrir o dropdown de ano. Scroll por 100+ opções. Seleciona.</p>
+      <p>6 interações e 3 scrolls. No celular, com o dedo, numa roletinha de 44 pixels de altura.</p>
       <p>Ou você podia ter dado 3 campos de texto e o usuário digitava em 2 segundos.</p>
     </section>
 
@@ -921,40 +1094,103 @@
       render();
     }
 
-    function initDropdownDemo() {
-      const monthSelect = document.getElementById('dp2-month');
-      const yearSelect = document.getElementById('dp2-year');
-      const grid = document.getElementById('dp2-grid');
-      const clicksEl = document.getElementById('dp2-clicks');
-      const messageEl = document.getElementById('dp2-message');
-      const resultDiv = document.getElementById('dp2-result');
-      const resultText = document.getElementById('dp2-result-text');
+    function initPopoverDemo() {
+      const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      const MONTHS_LC = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+        'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
 
+      let currentMonth = 2;
+      let currentYear = 2026;
       let interactionCount = 0;
-      let selectedDay = null;
 
-      // Populate year dropdown: 2026 down to 1920
-      for (let y = 2026; y >= 1920; y--) {
-        const opt = document.createElement('option');
-        opt.value = y;
-        opt.textContent = y;
-        yearSelect.appendChild(opt);
-      }
+      const monthBtn = document.getElementById('pp-month-btn');
+      const yearBtn = document.getElementById('pp-year-btn');
+      const popoverContainer = document.getElementById('pp-popover-container');
+      const weekdays = document.getElementById('pp-weekdays');
+      const grid = document.getElementById('pp-grid');
+      const clicksEl = document.getElementById('pp-clicks');
+      const messageEl = document.getElementById('pp-message');
+      const resultDiv = document.getElementById('pp-result');
+      const resultText = document.getElementById('pp-result-text');
 
-      function countInteraction() {
+      function count() {
         interactionCount++;
         clicksEl.textContent = interactionCount;
       }
 
-      function renderGrid() {
-        grid.innerHTML = '';
-        selectedDay = null;
-        const m = parseInt(monthSelect.value);
-        const y = parseInt(yearSelect.value);
-        if (isNaN(m) || isNaN(y)) return;
+      function updateHeader() {
+        monthBtn.textContent = MONTHS[currentMonth];
+        yearBtn.textContent = currentYear;
+      }
 
-        const firstDay = new Date(y, m, 1).getDay();
-        const daysInMonth = new Date(y, m + 1, 0).getDate();
+      function closePopover() {
+        popoverContainer.innerHTML = '';
+        weekdays.style.display = '';
+        grid.style.display = '';
+      }
+
+      function showMonthPicker() {
+        count();
+        grid.style.display = 'none';
+        weekdays.style.display = 'none';
+        const pop = document.createElement('div');
+        pop.className = 'pp-popover';
+        const g = document.createElement('div');
+        g.className = 'pp-months-grid';
+        MONTHS.forEach((name, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'pp-month-item';
+          btn.textContent = name.substring(0, 3);
+          if (i === currentMonth) btn.style.background = '#333';
+          btn.addEventListener('click', () => {
+            currentMonth = i;
+            count();
+            updateHeader();
+            closePopover();
+            renderDays();
+          });
+          g.appendChild(btn);
+        });
+        pop.appendChild(g);
+        popoverContainer.innerHTML = '';
+        popoverContainer.appendChild(pop);
+      }
+
+      function showYearPicker() {
+        count();
+        grid.style.display = 'none';
+        weekdays.style.display = 'none';
+        const pop = document.createElement('div');
+        pop.className = 'pp-popover';
+        const list = document.createElement('div');
+        list.className = 'pp-years-list';
+        for (let y = 2026; y >= 1920; y--) {
+          const btn = document.createElement('button');
+          btn.className = 'pp-year-item';
+          btn.textContent = y;
+          if (y === currentYear) btn.style.background = '#333';
+          btn.addEventListener('click', () => {
+            currentYear = y;
+            count();
+            updateHeader();
+            closePopover();
+            renderDays();
+          });
+          list.appendChild(btn);
+        }
+        pop.appendChild(list);
+        popoverContainer.innerHTML = '';
+        popoverContainer.appendChild(pop);
+        // Scroll to current year
+        const active = list.querySelector('[style]');
+        if (active) active.scrollIntoView({ block: 'center' });
+      }
+
+      function renderDays() {
+        grid.innerHTML = '';
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
         for (let i = 0; i < firstDay; i++) {
           const empty = document.createElement('span');
@@ -967,35 +1203,78 @@
           btn.className = 'dp-day';
           btn.textContent = d;
           btn.addEventListener('click', () => {
-            selectedDay = d;
-            countInteraction();
-
-            // Highlight selected
+            count();
             grid.querySelectorAll('.dp-day').forEach(el => el.style.background = '');
             btn.style.background = '#333';
-
-            const MNAMES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-              'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-            resultText.textContent = `${interactionCount} interações. 2 scrolls. 1 grid de números. Ou 3 campos de texto em 2 segundos.`;
-            resultDiv.hidden = false;
-            messageEl.textContent = `${d} de ${MNAMES[m]} de ${y}`;
+            messageEl.textContent = `${d} de ${MONTHS_LC[currentMonth]} de ${currentYear}`;
             messageEl.style.color = '#E0E0E0';
+            resultText.textContent = `${interactionCount} interações. Pra digitar algo que você sabe de cor desde os 12 anos.`;
+            resultDiv.hidden = false;
           });
           grid.appendChild(btn);
         }
       }
 
-      // Count opening + selecting on dropdowns
-      monthSelect.addEventListener('mousedown', () => countInteraction());
-      monthSelect.addEventListener('change', () => {
-        countInteraction();
-        renderGrid();
-      });
+      monthBtn.addEventListener('click', showMonthPicker);
+      yearBtn.addEventListener('click', showYearPicker);
 
-      yearSelect.addEventListener('mousedown', () => countInteraction());
-      yearSelect.addEventListener('change', () => {
-        countInteraction();
-        renderGrid();
+      updateHeader();
+      renderDays();
+    }
+
+    function initNativeDropdownDemo() {
+      const monthSelect = document.getElementById('nd-month');
+      const daySelect = document.getElementById('nd-day');
+      const yearSelect = document.getElementById('nd-year');
+      const clicksEl = document.getElementById('nd-clicks');
+      const messageEl = document.getElementById('nd-message');
+      const resultDiv = document.getElementById('nd-result');
+      const resultText = document.getElementById('nd-result-text');
+
+      const MONTHS_LC = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+        'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+      let interactionCount = 0;
+
+      // Populate days 1-31
+      for (let d = 1; d <= 31; d++) {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d;
+        daySelect.appendChild(opt);
+      }
+
+      // Populate years 2026-1920
+      for (let y = 2026; y >= 1920; y--) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSelect.appendChild(opt);
+      }
+
+      function count() {
+        interactionCount++;
+        clicksEl.textContent = interactionCount;
+      }
+
+      function checkComplete() {
+        const m = monthSelect.value;
+        const d = daySelect.value;
+        const y = yearSelect.value;
+        if (m !== '' && d !== '' && y !== '') {
+          messageEl.textContent = `${d} de ${MONTHS_LC[parseInt(m)]} de ${y}`;
+          messageEl.style.color = '#E0E0E0';
+          resultText.textContent = `${interactionCount} interações e 3 scrolls. Ou 3 campos de texto em 2 segundos.`;
+          resultDiv.hidden = false;
+        }
+      }
+
+      [monthSelect, daySelect, yearSelect].forEach(sel => {
+        sel.addEventListener('mousedown', () => count());
+        sel.addEventListener('change', () => {
+          count();
+          checkComplete();
+        });
       });
     }
 
@@ -1118,7 +1397,8 @@
     document.addEventListener('DOMContentLoaded', () => {
       initCalculator();
       initPainDemo();
-      initDropdownDemo();
+      initPopoverDemo();
+      initNativeDropdownDemo();
       initSolutionDemo();
       initShareLinks();
       initAnimations();
