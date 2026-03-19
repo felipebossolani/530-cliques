@@ -1357,8 +1357,9 @@
       document.getElementById('share-twitter').href =
         `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
 
+      const linkedinText = encodeURIComponent(`530 cliques pra informar minha data de nascimento num date picker. Para de usar calendário pra data de nascimento.\n\n${window.location.href}`);
       document.getElementById('share-linkedin').href =
-        `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+        `https://www.linkedin.com/feed/?shareActive=true&text=${linkedinText}`;
 
       const copyBtn = document.getElementById('share-copy');
       copyBtn.addEventListener('click', () => {
