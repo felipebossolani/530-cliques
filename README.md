@@ -4,7 +4,9 @@
 
 Um manifesto-interativo sobre por que date pickers de calendário não devem ser usados para data de nascimento.
 
-**[530cliques.com](https://felipebossolani.github.io/530-cliques)**
+**[felipebossolani.github.io/530-cliques](https://felipebossolani.github.io/530-cliques/)**
+
+![530 Cliques](thumb.png)
 
 ## O que é
 
