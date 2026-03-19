@@ -313,6 +313,75 @@
       font-size: 16px;
     }
 
+    .solution-demo {
+      margin: 2rem 0;
+      padding: 24px;
+      background: var(--code-bg);
+      border-radius: 8px;
+    }
+
+    .solution-fields {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .solution-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .solution-field label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .solution-field input {
+      background: var(--bg);
+      border: 2px solid #333;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 24px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      width: 80px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .solution-field input.valid {
+      border-color: var(--green);
+    }
+
+    .solution-field input:focus {
+      border-color: var(--green);
+    }
+
+    .solution-field input[maxlength="4"] {
+      width: 120px;
+    }
+
+    .solution-result {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .solution-result p:first-child {
+      font-size: 18px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .solution-msg {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
     .dp-desistiu {
       text-align: center;
       color: var(--red);
@@ -402,6 +471,44 @@
     </section>
 
     <section id="solutions" class="section">
+      <h2>A solução é constrangedoramente simples.</h2>
+      <p>Você não precisa de uma biblioteca. Não precisa de um componente de 400KB. Não precisa de um calendário bonito.</p>
+      <p>Precisa de 3 inputs.</p>
+<pre><code>&lt;input type="text" placeholder="DD" maxlength="2"&gt;
+&lt;input type="text" placeholder="MM" maxlength="2"&gt;
+&lt;input type="text" placeholder="AAAA" maxlength="4"&gt;</code></pre>
+      <p>Pronto. É isso. 3 campos. Labels claros. <code>inputmode="numeric"</code> pra abrir o teclado numérico no celular. Validação simples no submit.</p>
+      <p>O Gov.uk faz assim. A Smashing Magazine recomenda isso. O Nielsen Norman Group recomenda isso. Não é opinião. É pesquisa de usabilidade.</p>
+
+      <div class="solution-demo" id="solution-demo">
+        <div class="solution-fields">
+          <div class="solution-field">
+            <label for="sol-dd">Dia</label>
+            <input type="text" inputmode="numeric" id="sol-dd" maxlength="2" placeholder="DD" autocomplete="off">
+          </div>
+          <div class="solution-field">
+            <label for="sol-mm">Mês</label>
+            <input type="text" inputmode="numeric" id="sol-mm" maxlength="2" placeholder="MM" autocomplete="off">
+          </div>
+          <div class="solution-field">
+            <label for="sol-yyyy">Ano</label>
+            <input type="text" inputmode="numeric" id="sol-yyyy" maxlength="4" placeholder="AAAA" autocomplete="off">
+          </div>
+        </div>
+        <div class="solution-result" id="solution-result" hidden>
+          <p id="solution-date"></p>
+          <p class="solution-msg">2 segundos. Sem calendário. Sem scroll. Sem 530 cliques.</p>
+        </div>
+      </div>
+
+      <p><strong>"Mas e se a pessoa digitar errado?"</strong></p>
+      <p>Valida. Como você já faz com CPF, telefone, e-mail e tudo mais. A diferença é que com 3 campos de texto o erro mais comum é um dígito trocado — que o usuário corrige em 1 segundo. Com um date picker, o erro mais comum é desistir do cadastro.</p>
+
+      <p><strong>"Mas o date picker previne datas inválidas."</strong></p>
+      <p>Previne e cria 530 cliques de atrito. Troca um problema raro (data inválida) por um problema universal (UX horrível). É como trancar a porta da frente e obrigar todo mundo a entrar pela janela porque uma vez alguém entrou na casa errada.</p>
+
+      <p><strong>"Mas o calendário mostra o dia da semana."</strong></p>
+      <p>Você sabe em que dia da semana você nasceu? Não? Então por que seu formulário mostra isso?</p>
     </section>
 
     <section id="wall-of-shame" class="section">
