@@ -518,15 +518,26 @@
         updateMessage();
       }
 
+      function getTarget() {
+        const yearInput = document.getElementById('birth-year');
+        const year = parseInt(yearInput.value, 10);
+        if (!isNaN(year) && year >= 1900 && year <= 2025) {
+          return (2026 - year) * 12 + 2;
+        }
+        return 530;
+      }
+
       function updateMessage() {
-        // Target: 530 clicks (for default 1982)
-        const target = 530;
-        if (clickCount === 20) {
-          messageEl.textContent = `Já são ${clickCount} cliques. Faltam ${target - clickCount}. Quer mesmo continuar?`;
-        } else if (clickCount === 50) {
-          messageEl.textContent = 'Você já teria digitado a data 25 vezes.';
-        } else if (clickCount === 100) {
+        const target = getTarget();
+        if (clickCount >= 100) {
           messageEl.textContent = 'Ok, acho que você entendeu o ponto.';
+          messageEl.style.color = '#C0392B';
+        } else if (clickCount >= 50) {
+          messageEl.textContent = 'Você já teria digitado a data 25 vezes.';
+          messageEl.style.color = '#E67E22';
+        } else if (clickCount >= 20) {
+          const remaining = Math.max(0, target - clickCount);
+          messageEl.textContent = `Já são ${clickCount} cliques. Faltam ${remaining}. Quer mesmo continuar?`;
         }
       }
 
