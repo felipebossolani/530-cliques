@@ -650,6 +650,11 @@ code {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
+#hero.fade-target {
+  opacity: 1;
+  transform: none;
+}
+
 .fade-target.visible {
   opacity: 1;
   transform: translateY(0);
