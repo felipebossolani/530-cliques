@@ -1,3 +1,8 @@
+const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+const MONTHS_LC = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
 function initCalculator() {
   const input = document.getElementById('birth-year');
   const btn = document.getElementById('calc-btn');
@@ -60,9 +65,6 @@ function initCalculator() {
 }
 
 function initPainDemo() {
-  const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-
   const now = new Date();
   let currentMonth = now.getMonth();
   let currentYear = now.getFullYear();
@@ -169,11 +171,6 @@ function initPainDemo() {
 }
 
 function initPopoverDemo() {
-  const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-  const MONTHS_LC = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-
   const _now = new Date();
   let currentMonth = _now.getMonth();
   let currentYear = _now.getFullYear();
@@ -328,9 +325,6 @@ function initNativeDropdownDemo() {
   const resultDiv = document.getElementById('nd-result');
   const resultText = document.getElementById('nd-result-text');
 
-  const MONTHS_LC = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-
   let interactionCount = 0;
 
   // Populate days 1-31
@@ -386,9 +380,6 @@ function initNativeDropdownDemo() {
 }
 
 function initSolutionDemo() {
-  const MONTH_NAMES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-
   const dd = document.getElementById('sol-dd');
   const mm = document.getElementById('sol-mm');
   const yyyy = document.getElementById('sol-yyyy');
@@ -416,7 +407,7 @@ function initSolutionDemo() {
         const date = new Date(y, m - 1, d);
         if (date.getDate() === d && date.getMonth() === m - 1) {
           fields.forEach(f => f.classList.add('valid'));
-          dateDisplay.textContent = `${d} de ${MONTH_NAMES[m - 1]} de ${y}`;
+          dateDisplay.textContent = `${d} de ${MONTHS_LC[m - 1]} de ${y}`;
           result.hidden = false;
           return;
         }
