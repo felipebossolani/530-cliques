@@ -46,7 +46,7 @@
         <label for="birth-year">Seu ano de nascimento:</label>
         <div class="calc-row">
           <input type="text" inputmode="numeric" id="birth-year" maxlength="4" placeholder="ex: 1982" autocomplete="off">
-          <button id="calc-btn">Calcular</button>
+          <button type="button" id="calc-btn">Calcular</button>
         </div>
       </div>
       <div class="calc-result" id="calc-result" hidden>
@@ -61,9 +61,9 @@
       <div class="datepicker-wrapper">
         <div class="datepicker" id="datepicker">
           <div class="dp-header">
-            <button class="dp-arrow dp-prev" id="dp-prev" aria-label="Mês anterior">&lt;</button>
+            <button type="button" class="dp-arrow dp-prev" id="dp-prev" aria-label="Mês anterior">&lt;</button>
             <span class="dp-month-year" id="dp-display"></span>
-            <button class="dp-arrow dp-next" id="dp-next" aria-label="Próximo mês">&gt;</button>
+            <button type="button" class="dp-arrow dp-next" id="dp-next" aria-label="Próximo mês">&gt;</button>
           </div>
           <div class="dp-weekdays">
             <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
@@ -74,7 +74,7 @@
           <span>Cliques: <strong id="dp-clicks">0</strong></span>
           <p class="dp-message" id="dp-message"></p>
         </div>
-        <button class="btn-desisto" id="btn-desisto">Desisto.</button>
+        <button type="button" class="btn-desisto" id="btn-desisto">Desisto.</button>
       </div>
       <p class="dp-outro" id="dp-outro" hidden>Cansou? Desistiu? Pois é. Seus usuários também.</p>
     </section>
@@ -87,8 +87,8 @@
       <div class="datepicker-wrapper">
         <div class="popover-picker" id="pp-picker">
           <div class="pp-header">
-            <button class="pp-label" id="pp-month-btn"></button>
-            <button class="pp-label" id="pp-year-btn"></button>
+            <button type="button" class="pp-label" id="pp-month-btn" aria-label="Selecionar mês"></button>
+            <button type="button" class="pp-label" id="pp-year-btn" aria-label="Selecionar ano"></button>
           </div>
           <div id="pp-popover-container"></div>
           <div class="dp-weekdays" id="pp-weekdays">
@@ -115,7 +115,7 @@
       <p>Testa.</p>
 
       <div class="datepicker-wrapper">
-        <div class="datepicker" style="width: 320px; padding: 20px;">
+        <div class="datepicker native-datepicker">
           <div class="native-selects">
             <div class="native-field">
               <label for="nd-day">Dia</label>
@@ -236,9 +236,9 @@
       <p>Não existe literalmente nenhum motivo pra usar um calendário de date picker pra data de nascimento além da inércia coletiva de um milhão de devs copiando o mesmo componente de uma biblioteca sem nunca testar com um ser humano real.</p>
       <p><strong>Para de scrollar. Deixa eu digitar.</strong></p>
       <div class="share-links">
-        <a class="share-btn" id="share-twitter" target="_blank" rel="noopener noreferrer">Compartilhar no Twitter/X</a>
-        <a class="share-btn" id="share-linkedin" target="_blank" rel="noopener noreferrer">Compartilhar no LinkedIn</a>
-        <button class="share-btn" id="share-copy">Copiar link</button>
+        <a class="share-btn" id="share-twitter" href="#" target="_blank" rel="noopener noreferrer">Compartilhar no Twitter/X</a>
+        <a class="share-btn" id="share-linkedin" href="#" target="_blank" rel="noopener noreferrer">Compartilhar no LinkedIn</a>
+        <button type="button" class="share-btn" id="share-copy">Copiar link</button>
       </div>
     </section>
   </main>
