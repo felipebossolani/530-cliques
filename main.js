@@ -391,6 +391,13 @@ function initSolutionDemo() {
     input.value = input.value.replace(/\D/g, '');
   }
 
+  function padField(input) {
+    const max = parseInt(input.maxLength);
+    if (input.value.length > 0 && input.value.length < max) {
+      input.value = input.value.padStart(max, '0');
+    }
+  }
+
   function autoAdvance(current, next) {
     if (current.value.length >= parseInt(current.maxLength) && next) {
       next.focus();
@@ -402,7 +409,7 @@ function initSolutionDemo() {
     const m = parseInt(mm.value, 10);
     const y = parseInt(yyyy.value, 10);
 
-    if (dd.value.length === 2 && mm.value.length === 2 && yyyy.value.length === 4) {
+    if (dd.value.length >= 1 && mm.value.length >= 1 && yyyy.value.length === 4) {
       if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 1900 && y <= new Date().getFullYear()) {
         const date = new Date(y, m - 1, d);
         if (date.getDate() === d && date.getMonth() === m - 1) {
@@ -433,6 +440,10 @@ function initSolutionDemo() {
     stripNonNumeric(yyyy);
     validate();
   });
+
+  // Pad single digits with leading zero on blur
+  dd.addEventListener('blur', () => { padField(dd); validate(); });
+  mm.addEventListener('blur', () => { padField(mm); validate(); });
 
   // Backspace on empty field focuses previous
   mm.addEventListener('keydown', (e) => {
