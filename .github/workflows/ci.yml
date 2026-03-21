@@ -11,20 +11,20 @@ jobs:
     name: HTML Validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22
       - run: npx html-validate@latest index.html
 
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22
       - run: npm install -g @lhci/cli@latest chrome-launcher
       - run: |
           lhci autorun \
